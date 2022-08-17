@@ -4,9 +4,7 @@ async function main() {
   const link =
     "https://webscraper.io/test-sites/e-commerce/allinone/computers/laptops";
   const browser = await puppeteer.launch();
-  // const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
-
   await page.goto(link);
 
   const produtos = await page.evaluate(function () {
@@ -70,5 +68,4 @@ async function main() {
   console.log(produtos)
   return produtos;
 }
-// main()
 module.exports = main;
