@@ -1,6 +1,9 @@
 <h1>Como utilizar?</h1>
 <ol>
   <li>
+    <p><code>npm install</code> para instalar as dependências</p>
+  </li>
+  <li>
     <p><code>npm start</code> para iniciar o server</p>
   </li>
   <li>
