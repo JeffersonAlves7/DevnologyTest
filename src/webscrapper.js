@@ -1,21 +1,5 @@
 const puppeteer = require("puppeteer");
 
-function bubbleSort(arr) {
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < arr.length - i - 1; j++) {
-      if (
-        Number(arr[i].buy_options[0].price.replace("$", "")) >
-        Number(arr[j + 1].buy_options[0].price.replace("$", ""))
-      ) {
-        var tmp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = tmp;
-      }
-    }
-  }
-  return arr;
-}
-
 async function main() {
   const link =
     "https://webscraper.io/test-sites/e-commerce/allinone/computers/laptops";
@@ -45,6 +29,7 @@ async function main() {
           },
         ],
         ratings: all[i].children[2].children[0].innerText,
+        stars: all[i].children[2].children[1].dataset.rating
       });
     }
     //Filtrar pela marca
@@ -55,19 +40,18 @@ async function main() {
         description.toLowerCase().indexOf(marca) > -1
     );
   });
-
   //2)Loop para acessar cada produto do array de produtos
   //Selecionar os botões de cada tipo de HD e seus valores
   for (let i = 0; i < produtos.length; i++) {
     const produto = produtos[i];
-
     await page.goto(produto.href);
 
-    const response = await page.evaluate(() => {
+    const buy_options = await page.evaluate(() => {
       const buttons = document.querySelectorAll(".swatches > button");
 
       const values = [];
       for (let i of buttons) {
+        i.click()
         values.push({
           price: document.querySelector(".caption > .price").innerText,
           hdd: i.value,
@@ -76,21 +60,15 @@ async function main() {
       }
       return values;
     });
-
-    for (let i = 1; i < response.length; i++) {
-      const element = response[i];
-      await page.click(`button[value='${element.hdd}']`);
-      const price = await page.evaluate(() => {
-        return document.querySelector(".caption > .price").innerText;
-      });
-      response[i] = {
-        ...element,
-        price,
-      };
-    }
-    produtos[i] = { ...produto, buy_options: response };
+    produtos[i] = { ...produto, buy_options };
   }
+
   await browser.close();
+  produtos.sort((a, b) => (
+    Number(a.buy_options[0].price.replace("$", '')) - Number(b.buy_options[0].price.replace("$", ''))
+  ))
+  console.log(produtos)
   return produtos;
 }
+// main()
 module.exports = main;
