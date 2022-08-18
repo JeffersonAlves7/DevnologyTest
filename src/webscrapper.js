@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 
-async function main(marca) {
+async function main(marca = "lenovo") {
   const link =
     "https://webscraper.io/test-sites/e-commerce/allinone/computers/laptops";
 
@@ -20,7 +20,6 @@ async function main(marca) {
         href: all[i].children[1].children[1].children[0].href,
         title: all[i].children[1].children[1].children[0].title,
         description: all[i].children[1].children[2].innerText,
-        buy_options: [],
         ratings: all[i].children[2].children[0].innerText,
         stars: all[i].children[2].children[1].dataset.rating,
       });
@@ -46,8 +45,8 @@ async function main(marca) {
       const buttons = document.querySelectorAll(".swatches > button");
 
       const values = [];
-      for (let j = 0; i < buttons.length; j++) {
-        const button = buttons[i]
+      for (let j = 0; j < buttons.length; j++) {
+        const button = buttons[j]
         button.click();
         values.push({
           price: document.querySelector(".caption > .price").innerText,
@@ -68,6 +67,8 @@ async function main(marca) {
       Number(a.buy_options[0].price.replace("$", "")) -
       Number(b.buy_options[0].price.replace("$", ""))
   );
+  console.log(produtos)
   return produtos;
 }
-module.exports = main;
+main()
+// module.exports = main;

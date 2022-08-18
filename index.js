@@ -24,4 +24,6 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.listen(config.port, console.log(`Listen on PORT ${config.port}`));
+app.listen(config.port, () => {
+  console.log(`Yous server is available at: http://localhost:${config.port}`)
+});
