@@ -7,7 +7,7 @@
     <p><code>npm start</code> para iniciar o server</p>
   </li>
   <li>
-    <p>Acesse <a target="_blank" href="http://localhost:8080?marca=lenovo">http://localhost:8080?marca=lenovo</a> no seu navegador </p>
+    <p>Acesse <a href="http://localhost:8080?marca=lenovo" target="_blank">http://localhost:8080?marca=lenovo</a> no seu navegador </p>
   </li>
   <li>
     <p>Trocando a marca 'lenovo' para outra qualquer, você poderá ter acesso a outros itens</p>
