@@ -67,8 +67,6 @@ async function main(marca = "lenovo") {
       Number(a.buy_options[0].price.replace("$", "")) -
       Number(b.buy_options[0].price.replace("$", ""))
   );
-  console.log(produtos)
   return produtos;
 }
-main()
-// module.exports = main;
+module.exports = main;
