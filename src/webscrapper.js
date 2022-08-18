@@ -10,6 +10,7 @@ async function main(marca) {
   const page = await browser.newPage();
   await page.goto(link);
 
+  //Colher todas as informações de itens na página principal de notebooks
   const pd = await page.evaluate(function () {
     const all = document.querySelectorAll("div.col-sm-4 > .thumbnail");
     const produtos = [];
@@ -33,12 +34,16 @@ async function main(marca) {
     return produtos;
   });
 
+  //Filtrar os produtos pela marca enviada pelo usuário
+  //Levando em conta tanto o título quanto a descrição do item
   const produtos = pd.filter(
     ({ title, description }) =>
       title.toLowerCase().indexOf(marca) > -1 ||
       description.toLowerCase().indexOf(marca) > -1
   );
 
+  //Acessando a página de cada item para colher informações de compra,
+  //dentre elas o preço, os tipos de hdd e se está ou não desabilitado para escolha do usuário
   for (let i = 0; i < produtos.length; i++) {
     const produto = produtos[i];
     await page.goto(produto.href);
@@ -47,7 +52,8 @@ async function main(marca) {
       const buttons = document.querySelectorAll(".swatches > button");
 
       const values = [];
-      for (let button of buttons) {
+      for (let j = 0; i < buttons.length; j++) {
+        const button = buttons[i]
         button.click();
         values.push({
           price: document.querySelector(".caption > .price").innerText,
@@ -61,6 +67,8 @@ async function main(marca) {
   }
 
   await browser.close();
+
+  //Ordenando do menor preço para o maior
   produtos.sort(
     (a, b) =>
       Number(a.buy_options[0].price.replace("$", "")) -
