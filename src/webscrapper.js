@@ -20,13 +20,7 @@ async function main(marca) {
         href: all[i].children[1].children[1].children[0].href,
         title: all[i].children[1].children[1].children[0].title,
         description: all[i].children[1].children[2].innerText,
-        buy_options: [
-          {
-            price: all[i].children[1].children[0].innerText,
-            hdd: "",
-            disabled: false,
-          },
-        ],
+        buy_options: [],
         ratings: all[i].children[2].children[0].innerText,
         stars: all[i].children[2].children[1].dataset.rating,
       });
