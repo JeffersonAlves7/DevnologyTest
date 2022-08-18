@@ -17,8 +17,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get("/", async (req, res) => {
   try {
-    const response = await scrapper();
-    res.send({ response });
+    const response = await scrapper(req.query.marca || "lenovo");
+    res.status(200).send({ response });
   } catch (e) {
     res.status(400).send({ error: e.message });
   }
