@@ -35,6 +35,7 @@ async function main(marca = "lenovo") {
       description.toLowerCase().indexOf(marca) > -1
   );
 
+
   //Acessando a página de cada item para colher informações de compra,
   //dentre elas o preço, os tipos de hdd e se está ou não desabilitado para escolha do usuário
   for (let i = 0; i < produtos.length; i++) {
@@ -56,7 +57,7 @@ async function main(marca = "lenovo") {
       }
       return values;
     });
-    produtos[i] = { ...produto, buy_options };
+    produtos[i] = { notebook: { ...produto, buy_options, marca } };
   }
 
   await browser.close();
@@ -64,8 +65,8 @@ async function main(marca = "lenovo") {
   //Ordenando do menor preço para o maior
   produtos.sort(
     (a, b) =>
-      Number(a.buy_options[0].price.replace("$", "")) -
-      Number(b.buy_options[0].price.replace("$", ""))
+      Number(a.notebook.buy_options[0].price.replace("$", "")) -
+      Number(b.notebook.buy_options[0].price.replace("$", ""))
   );
   return produtos;
 }
